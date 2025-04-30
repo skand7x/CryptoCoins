@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <span class="text-warning">Crypto</span>Dashboard
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#trending">Trending</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#top-coins">Top Coins</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#exchanges">Exchanges</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h3>Crypto Market Overview</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card mb-3">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Bitcoin (BTC)</h5>
+                                        <h3 class="text-primary" id="btc-price">$0.00</h3>
+                                        <p class="card-text"><span id="btc-change">0.00%</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card mb-3">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Ethereum (ETH)</h5>
+                                        <h3 class="text-primary" id="eth-price">$0.00</h3>
+                                        <p class="card-text"><span id="eth-change">0.00%</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card mb-3">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Global Market Cap</h5>
+                                        <h3 class="text-primary" id="global-market-cap">$0.00</h3>
+                                        <p class="card-text"><span id="market-cap-change">0.00%</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4" id="trending">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-warning text-dark">
+                        <h3>Trending Cryptocurrencies</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="trending-coins">
+                            <!-- Trending coins will be loaded here -->
+                            <div class="text-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4" id="top-coins">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-success text-white">
+                        <h3>Top Cryptocurrencies by Market Cap</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Coin</th>
+                                        <th>Price</th>
+                                        <th>24h %</th>
+                                        <th>Market Cap</th>
+                                        <th>Volume (24h)</th>
+                                        <th>Chart (7d)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="top-coins-table">
+                                    <!-- Top coins will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4" id="coin-detail">
+            <div class="col-12">
+                <div class="card shadow d-none" id="chart-card">
+                    <div class="card-header bg-info text-white">
+                        <h3 id="coin-chart-title">Price Chart</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="coin-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4" id="exchanges">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-header bg-secondary text-white">
+                        <h3>Top Exchanges by Volume</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="exchanges-list">
+                            <!-- Exchanges will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Crypto Dashboard</h5>
+                    <p>A comprehensive crypto market data tool</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p>Data provided by CoinGecko API</p>
+                    <p>&copy; 2025 CryptoDashboard</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 
