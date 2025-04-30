@@ -1,7 +1,7 @@
-flask==2.0.1
-requests==2.28.1
-python-dotenv==0.21.1
-pycoingecko==3.1.0
-gunicorn==21.2.0
-plotly==5.13.0
+flask
+requests
+python-dotenv
+pycoingecko
+gunicorn
+plotly
 pandas 
